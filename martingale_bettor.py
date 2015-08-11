@@ -16,6 +16,7 @@ def rollDice():
 def martingale_bettor(funds, initial_wager, wager_count):
 	value = funds
 	wager = initial_wager
+	global broke_count
 
 	wX = []
 	vY = []
@@ -26,43 +27,35 @@ def martingale_bettor(funds, initial_wager, wager_count):
 
 	while currentWager <= wager_count:
 		if previousWager == 1:
-			print 'won last round'
 			if rollDice():
 				value += wager
-				print value
 				wX.append(currentWager)
 				vY.append(value)
 			else:
 				value -= wager
 				previousWager = 0
-				print value
 				previousWagerAmount = wager
 				wX.append(currentWager)
 				vY.append(value)
 				if value < 0:
-					print 'we went broke after ',currentWager,' bets'
+					broke_count += 1
 					break
 
 		elif previousWager == 0:
-			print 'we lost the last one, so double down'
 			if rollDice():
 				wager = previousWagerAmount * 2
-				print 'we won ',wager
 				value += wager
-				print value
 				wager = initial_wager
 				previousWager = 1
 				wX.append(currentWager)
 				vY.append(value)
 			else:
 				wager = previousWagerAmount * 2
-				print 'we lost',wager
 				value -= wager
 				if value < 0:
-					print 'we went broke after ',currentWager,' bets'
+					broke_count += 1
 					break
 
-				print value
 				previousWager = 0
 
 				previousWagerAmount = wager
@@ -75,11 +68,16 @@ def martingale_bettor(funds, initial_wager, wager_count):
 	pyplot.plot(wX, vY)
 
 x = 0
-while x < 100:
+broke_count = 0
+
+while x < 1000:
 	martingale_bettor(10000, 100, 100)
 	x += 1
 
+print 'death rate:', (broke_count / float(x)) * 100
+print 'survival rate:', 100 - ((broke_count / float(x)) * 100)
 pyplot.ylabel('Account Value')
 pyplot.xlabel('Wager Count')
+pyplot.axhline(0, color = 'r')
 pyplot.show()
 time.sleep(555)
