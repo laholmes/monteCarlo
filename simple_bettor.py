@@ -19,12 +19,12 @@ def simple_bettor(funds, initial_wager, wager_count):
 	while currentWager < wager_count:
 		if rollDice():
 			value += wager
-		else: 
+		else:
 			value -= wager
 
 		currentWager += 1
 
-	if value < 0:
+	if value <= 0:
 		value = 'broke'
 
 	print 'Funds: ', value

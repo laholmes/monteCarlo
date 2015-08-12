@@ -44,6 +44,10 @@ def martingale_bettor(funds, initial_wager, wager_count):
 		elif previousWager == 0:
 			if rollDice():
 				wager = previousWagerAmount * 2
+
+				if (value - wager) < 0:
+					wager = value
+
 				value += wager
 				wager = initial_wager
 				previousWager = 1
@@ -51,16 +55,20 @@ def martingale_bettor(funds, initial_wager, wager_count):
 				vY.append(value)
 			else:
 				wager = previousWagerAmount * 2
+
+				if (value - wager) < 0:
+					wager = value
+
 				value -= wager
-				if value < 0:
+				previousWagerAmount = wager
+				wX.append(currentWager)
+				vY.append(value)
+
+				if value <= 0:
 					broke_count += 1
 					break
 
 				previousWager = 0
-
-				previousWagerAmount = wager
-				wX.append(currentWager)
-				vY.append(value)
 
 		currentWager += 1
 
