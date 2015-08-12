@@ -16,7 +16,8 @@ def rollDice():
 def martingale_bettor(funds, initial_wager, wager_count):
 	value = funds
 	wager = initial_wager
-	global broke_count
+	global martingale_busts
+	global martingale_profits
 
 	wX = []
 	vY = []
@@ -38,7 +39,7 @@ def martingale_bettor(funds, initial_wager, wager_count):
 				wX.append(currentWager)
 				vY.append(value)
 				if value < 0:
-					broke_count += 1
+					martingale_busts += 1
 					break
 
 		elif previousWager == 0:
@@ -65,7 +66,7 @@ def martingale_bettor(funds, initial_wager, wager_count):
 				vY.append(value)
 
 				if value <= 0:
-					broke_count += 1
+					martingale_busts += 1
 					break
 
 				previousWager = 0
@@ -74,16 +75,22 @@ def martingale_bettor(funds, initial_wager, wager_count):
 
 	print value
 	pyplot.plot(wX, vY)
+	if value > funds:
+		value = 0
+		martingale_profits += 1
 
 x = 0
-broke_count = 0
+sampleSize = 100
+martingale_busts = 0.0
+martingale_profits = 0.0
 
-while x < 1000:
+while x < sampleSize:
 	martingale_bettor(10000, 100, 100)
 	x += 1
 
-print 'death rate:', (broke_count / float(x)) * 100
-print 'survival rate:', 100 - ((broke_count / float(x)) * 100)
+print 'martingale bettor bust chance', (martingale_busts/sampleSize) * 100.00
+print 'martingale bettor profit chances', (martingale_profits/sampleSize) * 100.00
+
 pyplot.ylabel('Account Value')
 pyplot.xlabel('Wager Count')
 pyplot.axhline(0, color = 'r')

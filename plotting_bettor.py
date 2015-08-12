@@ -15,6 +15,8 @@ def rollDice():
 def simple_bettor(funds, initial_wager, wager_count):
 	value = funds
 	wager = initial_wager
+	global simple_busts
+	global simple_profits
 
 	wX = []
 	vY = []
@@ -32,20 +34,32 @@ def simple_bettor(funds, initial_wager, wager_count):
 
 		currentWager += 1
 
-	if value < 0:
+	if value <= 0:
+		simple_busts += 1
 		value = 'broke'
 
 	print 'Funds: ', value
 	pyplot.plot(wX, vY)
+	if value > funds:
+		value = 0
+		simple_profits += 1
 
 # single bettor
 #simple_bettor(10000,100,100)
 
 x = 0
+sampleSize = 100
+
+simple_busts = 0.0
+simple_profits = 0.0
+
 # 100 bettors
-while x < 100:
+while x < sampleSize:
 	simple_bettor(10000, 100, 10000)
 	x += 1
+
+print 'simple bettor bust chance', (simple_busts/sampleSize) * 100.00
+print 'simple bettor profit chances', (simple_profits/sampleSize) * 100.00
 
 pyplot.ylabel('Account Value')
 pyplot.xlabel('Wager Count')
