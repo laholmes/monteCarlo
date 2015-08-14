@@ -32,8 +32,9 @@ def rollDice():
         return True
 
 def dAlembert(funds,initial_wager,wager_count):
-    da_busts = 0
-    da_profits = 0
+    global ret
+    global da_busts
+    global da_profits
 
     value = funds
     wager = initial_wager
@@ -80,7 +81,25 @@ def dAlembert(funds,initial_wager,wager_count):
         currentWager += 1
 
     print 'value', value
+
+    ret += value
+
     if value > funds:
         da_profits += 1
 
-dAlembert(startingFunds,wagerSize,wagerCount)
+daSampSize = 100000
+counter = 1
+ret = 0.0
+da_busts = 0.0
+da_profits = 0.0
+
+while counter <= daSampSize:
+    dAlembert(startingFunds,wagerSize,wagerCount)
+    counter += 1
+
+
+print 'Total invested:',daSampSize*startingFunds
+print 'Total return:',ret
+print 'ROI:',ret - (daSampSize*startingFunds)
+print 'Bust rate:',(da_busts/daSampSize)*100.00
+print 'Profit rate:',(da_profits/daSampSize)*100.00
