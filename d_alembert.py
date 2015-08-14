@@ -11,6 +11,7 @@ startingFunds = 10000
 wagerSize = 100
 wagerCount = 100
 
+'''
 def rollDice():
     roll = random.randint(1,100)
 
@@ -19,6 +20,15 @@ def rollDice():
     elif roll <= 50:
         return False
     elif 100 > roll > 50:
+        return True
+'''
+
+def rollDice():
+    roll = random.randint(1,100)
+
+    if roll <= 50:
+        return False
+    elif roll >= 51:
         return True
 
 def dAlembert(funds,initial_wager,wager_count):
