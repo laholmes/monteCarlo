@@ -6,6 +6,6 @@ it runs the simulation for 100 bettors, all starting with 10000, betting 100 eac
 
 plotting_bettor is as above, but plots the results using matplotlib
 
-martingale_bettor doubles current wager when the bettor lost in the previous round
+martingale_bettor doubles current wager when the bettor lost in the previous round. also includes a multiple_bettor strategy which randomises the multiple on the current wager. running multiple times enables us to find the optimal increment size
 
 d'Alembert increments the bet size when you lose, decrements on a win. this is a relatively 'safe' strategy, requiring a smaller bankroll. If the number of wins is the same as the number of losses, you will always be in profit by the number of bets.
