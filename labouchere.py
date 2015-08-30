@@ -15,32 +15,26 @@ def Labouchere():
     # can adjust risk by distributing return across more bets: 1,1,1,1,1 rather than 1,2,2
     # wager size can get very big
     system = []
-
     profit = 0
-
     current_funds = starting_funds
-
     wagerSizes = []
-
     plot_funds = []
-
-    not_broke = True
+    broke = False
 
     wins = 1
     losses = 1
 
-    while profit < goal and not_broke:
+    while profit < goal and !broke:
         if len(system) > 1:
             size = system[0] + system[-1]
-            wagerSizes.append(size)
-            plot_funds.append(current_funds)
         else:
             size = system[0]
-            wagerSizes.append(size)
-            plot_funds.append(current_funds)
+
+        wagerSizes.append(size)
+        plot_funds.append(current_funds)
 
         if current_funds <= 0:
-            not_broke = False
+            broke = True
             broke_count += 1
         elif current_funds - wagerSize <= 0:
             size = current_funds
